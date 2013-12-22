@@ -3,6 +3,8 @@ class Entity
   y: 0
   width: 0
   height: 0
+  xVelocity: 0
+  yVelocity: 0
 
   centerVertically: ->
     @y = game.height / 2 - @height / 2
@@ -15,6 +17,8 @@ class Entity
     @centerVertically()
 
   update: ->
+    @x += @xVelocity
+    @y += @yVelocity
 
   draw: (canvas) ->
     canvas.fillStyle = '#fff'
@@ -36,6 +40,8 @@ class Paddle extends Entity
     @centerVertically()
 
   update: ->
+    super
+
     # Keep paddle inside the screen limits
     @y = Math.min(Math.max(@y, 0), game.height - @height)
 
@@ -45,9 +51,11 @@ class Player extends Paddle
 
   update: ->
     if game.upKey
-      @y -= @speed
+      @yVelocity = -@speed
     else if game.downKey
-      @y += @speed
+      @yVelocity = @speed
+    else
+      @yVelocity = 0
 
     super
 
@@ -60,14 +68,20 @@ class Bot extends Paddle
 
   update: ->
     # Follow the ball
-    @y += @speed if @y < game.ball.y
-    @y -= @speed if @y > game.ball.y
+    if @y < game.ball.y
+      @yVelocity = @speed
+    else
+      @yVelocity = -@speed
 
     super
 
 class Ball extends Entity
   width: 20
   height: 20
+
+  launchSpeed: 7
+  minLaunchAngle: -30
+  maxLaunchAngle: 30
 
   constructor: ->
     @reset()
@@ -77,46 +91,48 @@ class Ball extends Entity
   reset: ->
     @center()
 
-    # Launch ball at random angle between -30 & 30 deg
-    minAngle = -30
-    maxAngle = 30
-    angle = Math.floor(Math.random() * (maxAngle - minAngle + 1)) + minAngle
+    # Launch ball at random angle between our min and max angles
+    angle = Math.floor(Math.random() * (@maxLaunchAngle - @minLaunchAngle + 1)) + @minLaunchAngle
 
     # Convert angle to x,y coordinates
     radian = Math.PI / 180
-    speed = 7
-    @xVelocity = speed * Math.cos(angle * radian)
-    @yVelocity = speed * Math.sin(angle * radian)
+    @xVelocity = @launchSpeed * Math.cos(angle * radian)
+    @yVelocity = @launchSpeed * Math.sin(angle * radian)
 
     # Alternate between going right and left
     @xVelocity *= -1 if Math.random() > 0.5
 
   update: ->
-    @x += @xVelocity
-    @y += @yVelocity
+    super
 
-    # Hits a paddle. Rebound and increase speed
-    if @intersect(game.player) or @intersect(game.bot)
-      @xVelocity *= -1.1
+    # Detects if and which paddle we hit
+    if @intersect(game.player)
+      hitter = game.player
+    else if @intersect(game.bot)
+      hitter = game.bot
+
+    # Hits a paddle.
+    if hitter
+      @xVelocity *= -1.1 # Rebound and increase speed
       @yVelocity *= 1.1
+
+      # Transfer some of the paddle velocity to the ball
+      @yVelocity += hitter.yVelocity / 4
+
       @blip.play()
 
-    # FIXME required?
-    if @intersect(game.player)
-      @x = game.player.x + game.player.width
-    if @intersect(game.bot)
-      @x = game.bot.x - @width
-
-    # Hits top or bottom. Rebound!
+    # Hits top or bottom wall. Rebound!
     if @y < 0 or @y > game.height - @height
       @yVelocity *= -1
       @blip.play()
 
-    if @x < 0 # Off screen on left. Bot wins.
+    # Off screen on left. Bot wins.
+    if @x < 0
       game.bot.score += 1
       @reset()
 
-    if @x > game.width # Off score on right. Player wins.
+    # Off screen on right. Player wins.
+    if @x > game.width
       game.player.score += 1
       @reset()
 
