@@ -6,6 +6,14 @@ class Entity
   xVelocity: 0
   yVelocity: 0
 
+  update: ->
+    @x += @xVelocity
+    @y += @yVelocity
+
+  draw: (canvas) ->
+    canvas.fillStyle = '#fff'
+    canvas.fillRect @x, @y, @width, @height
+
   centerVertically: ->
     @y = game.height / 2 - @height / 2
 
@@ -15,14 +23,6 @@ class Entity
   center: ->
     @centerHorizontally()
     @centerVertically()
-
-  update: ->
-    @x += @xVelocity
-    @y += @yVelocity
-
-  draw: (canvas) ->
-    canvas.fillStyle = '#fff'
-    canvas.fillRect @x, @y, @width, @height
 
   intersect: (other) ->
     @y + @height > other.y and
@@ -136,6 +136,20 @@ class Ball extends Entity
       game.player.score += 1
       @reset()
 
+class Background
+  update: ->
+
+  draw: (canvas) ->
+    # Draw black background
+    canvas.fillStyle = '#000'
+    canvas.fillRect 0, 0, game.width, game.height
+
+    # Print scores
+    canvas.fillStyle = '#fff'
+    canvas.font = "40px monospace"
+    canvas.fillText game.player.score, game.width * 3 / 8, 50
+    canvas.fillText game.bot.score, game.width * 5 / 8, 50
+
 game =
   start: ->
     fps = 60
@@ -143,19 +157,26 @@ game =
       @run()
     , 1000 / fps
 
-  run: ->
-    # Draw black background
-    @canvas.fillStyle = '#000'
-    @canvas.fillRect 0, 0, @width, @height
+  start: ->
+    dirty = true
+    updatesPerSecond = 60
 
+    @timer = setInterval ->
+      game.entities.forEach (entity) -> entity.update()
+      dirty = true
+    , 1000 / updatesPerSecond
+
+    requestAnimationFrame ->
+      if dirty
+        game.entities.forEach (entity) -> entity.draw game.canvas
+        dirty = false
+
+      requestAnimationFrame(arguments.callee)
+
+  run: ->
     # Update and draw each entity
     @entities.forEach (entity) -> entity.update()
     @entities.forEach (entity) => entity.draw(@canvas)
-
-    # Print scores
-    @canvas.font = "40px monospace"
-    @canvas.fillText @player.score, game.width * 3 / 8, 50
-    @canvas.fillText @bot.score, game.width * 5 / 8, 50
 
   running: ->
     @timer?
@@ -170,6 +191,7 @@ game =
   create: ->
     @entities = []
 
+    @entities.push new Background()
     @entities.push @player = new Player()
     @entities.push @bot = new Bot()
     @entities.push @ball = new Ball()
