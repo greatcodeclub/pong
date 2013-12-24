@@ -10,9 +10,9 @@ class Entity
     @x += @xVelocity
     @y += @yVelocity
 
-  draw: (canvas) ->
-    canvas.fillStyle = '#fff'
-    canvas.fillRect @x, @y, @width, @height
+  draw: (context) ->
+    context.fillStyle = '#fff'
+    context.fillRect @x, @y, @width, @height
 
   centerVertically: ->
     @y = game.height / 2 - @height / 2
@@ -139,16 +139,16 @@ class Ball extends Entity
 class Background
   update: ->
 
-  draw: (canvas) ->
+  draw: (context) ->
     # Draw black background
-    canvas.fillStyle = '#000'
-    canvas.fillRect 0, 0, game.width, game.height
+    context.fillStyle = '#000'
+    context.fillRect 0, 0, game.width, game.height
 
     # Print scores
-    canvas.fillStyle = '#fff'
-    canvas.font = "40px monospace"
-    canvas.fillText game.player.score, game.width * 3 / 8, 50
-    canvas.fillText game.bot.score, game.width * 5 / 8, 50
+    context.fillStyle = '#fff'
+    context.font = "40px monospace"
+    context.fillText game.player.score, game.width * 3 / 8, 50
+    context.fillText game.bot.score, game.width * 5 / 8, 50
 
 game =
   fps: 60
@@ -182,7 +182,7 @@ game =
     entity.update() for entity in @entities
 
   draw: ->
-    entity.draw @canvas for entity in @entities
+    entity.draw @context for entity in @entities
 
   running: ->
     @timer?
@@ -191,14 +191,13 @@ game =
     clearInterval @timer
     @timer = null
 
-    @canvas.font = "100px monospace"
-    @canvas.fillText "Paused", game.width / 2 - 170, 170
+    @context.font = "100px monospace"
+    @context.fillText "Paused", game.width / 2 - 170, 170
 
-  init: ($canvas) ->
-    el = $canvas[0]
-    @canvas = el.getContext("2d")
-    @width = el.width
-    @height = el.height
+  init: (canvas) ->
+    @context = canvas.getContext("2d")
+    @width = canvas.width
+    @height = canvas.height
 
     @entities = [
       new Background()
@@ -210,13 +209,13 @@ game =
     @draw()
     @stop()
 
-    $canvas
+    $(canvas)
       .focus (e) ->
         game.start()
       .blur (e) ->
         game.stop()
       .keydown (e) ->
-        # Cancel bubbling of arrow keys
+        # Prevent default behavior of arrow keys
         e.preventDefault() if game.running() and e.which in [37..40] # arrow keys
         toggleKey e, true
       .keyup (e) ->
@@ -227,4 +226,4 @@ game =
         when 38 then game.upKey = pressed
         when 40 then game.downKey = pressed
 
-$ -> game.init $("canvas")
+$ -> game.init $('canvas#pong')[0]
