@@ -151,32 +151,38 @@ class Background
     canvas.fillText game.bot.score, game.width * 5 / 8, 50
 
 game =
-  start: ->
-    fps = 60
+  fps: 60
+
+  simpleStart: ->
     @timer = setInterval =>
-      @run()
-    , 1000 / fps
+      @draw()
+      @update()
+    , 1000 / @fps
 
   start: ->
-    dirty = true
-    updatesPerSecond = 60
+    updated = false
 
+    # Update the entities at fixed interval
     @timer = setInterval ->
-      game.entities.forEach (entity) -> entity.update()
-      dirty = true
-    , 1000 / updatesPerSecond
+      game.update()
+      updated = true
+    , 1000 / @fps
 
+    # Draw only when required
     requestAnimationFrame ->
-      if dirty
-        game.entities.forEach (entity) -> entity.draw game.canvas
-        dirty = false
+      if game.running()
+        # Draw when game is running and has been updated
+        if updated
+          game.draw()
+          updated = false
 
-      requestAnimationFrame(arguments.callee)
+        requestAnimationFrame(arguments.callee)
 
-  run: ->
-    # Update and draw each entity
-    @entities.forEach (entity) -> entity.update()
-    @entities.forEach (entity) => entity.draw(@canvas)
+  update: ->
+    entity.update() for entity in @entities
+
+  draw: ->
+    entity.draw @canvas for entity in @entities
 
   running: ->
     @timer?
@@ -188,22 +194,21 @@ game =
     @canvas.font = "100px monospace"
     @canvas.fillText "Paused", game.width / 2 - 170, 170
 
-  create: ->
-    @entities = []
-
-    @entities.push new Background()
-    @entities.push @player = new Player()
-    @entities.push @bot = new Bot()
-    @entities.push @ball = new Ball()
-
-  init: ->
-    $canvas = $("canvas")
+  init: ($canvas) ->
     el = $canvas[0]
     @canvas = el.getContext("2d")
     @width = el.width
     @height = el.height
 
-    @create()
+    @entities = [
+      new Background()
+      @player = new Player()
+      @bot = new Bot()
+      @ball = new Ball()
+    ]
+
+    @draw()
+    @stop()
 
     $canvas
       .focus (e) ->
@@ -222,7 +227,4 @@ game =
         when 38 then game.upKey = pressed
         when 40 then game.downKey = pressed
 
-    @run()
-    @stop()
-
-$ -> game.init()
+$ -> game.init $("canvas")
