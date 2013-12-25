@@ -6,9 +6,9 @@ class Entity
   xVelocity: 0
   yVelocity: 0
 
-  update: ->
-    @x += @xVelocity
-    @y += @yVelocity
+  update: (percentage = 1) ->
+    @x += @xVelocity * percentage
+    @y += @yVelocity * percentage
 
   draw: (context) ->
     context.fillStyle = '#fff'
@@ -160,36 +160,55 @@ game =
     , 1000 / @fps
 
   start: ->
+    @lastUpdateTime = new Date().getTime()
+    
+    onFrame = =>
+      # Update and draw
+      @fixedTimeStep()
+      # @variableTimeStep()
+
+      # Schedule the next update
+      @requestId = requestAnimationFrame onFrame
+
+    onFrame()
+
+  fixedTimeStep: ->
+    currentTime = new Date().getTime()
+    interval = 1000 / @fps # ms per frame
     updated = false
 
-    # Update the entities at fixed interval
-    @timer = setInterval ->
-      game.update()
+    while @lastUpdateTime < currentTime
+      @update()
       updated = true
-    , 1000 / @fps
+      @lastUpdateTime += interval
 
-    # Draw only when required
-    requestAnimationFrame ->
-      if game.running()
-        # Draw when game is running and has been updated
-        if updated
-          game.draw()
-          updated = false
+    @draw() if updated
+  
+  variableTimeStep: ->
+    currentTime = new Date().getTime()
+    interval = 1000 / @fps # ms per frame
 
-        requestAnimationFrame(arguments.callee)
+    timeDelta = currentTime - @lastUpdateTime
+    percentageOfInterval = timeDelta / interval
+    @update percentageOfInterval
+    @draw()
+
+    @lastUpdateTime = new Date().getTime()
 
   update: ->
-    entity.update() for entity in @entities
+    entity.update(arguments...) for entity in @entities
 
   draw: ->
     entity.draw @context for entity in @entities
 
   running: ->
-    @timer?
+    @timer or @requestId
 
   stop: ->
     clearInterval @timer
     @timer = null
+    cancelAnimationFrame @requestId if @requestId
+    @requestId = null
 
     @context.font = "100px monospace"
     @context.fillText "Paused", game.width / 2 - 170, 170
