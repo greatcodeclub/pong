@@ -153,12 +153,23 @@ class Background
 game =
   fps: 60
 
+  # ## Simple game loop.
+  #
+  # We update and draw at fixed intervals using a JavaScript timer.
   simpleStart: ->
     @timer = setInterval =>
-      @draw()
       @update()
+      @draw()
     , 1000 / @fps
 
+  # ## A better game loop
+  #
+  # The problem with the previous loop is that we might be updating too often,
+  # consuming too much CPU or not enough, causing jitters in animations.
+  #
+  # We need to sync with the video card and monitor refresh rate. Thankfully,
+  # JavaScript recently gifted us with `requestAnimationFrame`. It receives a
+  # callback, call at proper interval to sync with your display refresh rate.
   start: ->
     @lastUpdateTime = new Date().getTime()
     
