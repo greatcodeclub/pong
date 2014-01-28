@@ -8,8 +8,11 @@
 
 ### Resources
 
-- http://macournoyer.com/game/
+- [A simple racing game in CoffeeScript I made](http://macournoyer.com/game/)
+- [A small platform game re-implemented in several languages](https://github.com/alejolp/grounded)
 
 #### Game Assets
 
 - http://kenney.nl/assets
+- http://www.reddit.com/r/gameassets
+- http://opengameart.org/
