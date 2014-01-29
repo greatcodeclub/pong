@@ -58,7 +58,9 @@ Game.prototype.start = function() {
   }, interval)
 }
 
-/////////////////////// PART II ///////////////////////
+
+// Other game loop alternatives
+// ----------------------------
 
 // A better game loop for languages with timers
 Game.prototype.betterStart = function() {
@@ -74,7 +76,8 @@ Game.prototype.betterStart = function() {
 
   var onFrame = function() {
     if (updated) self.draw()
-    // Schedule the next update
+    // Schedule the next update when the browser requests it,
+    // making sure it's in sync with the screen refresh rate.
     requestAnimationFrame(onFrame)
   }
   onFrame()

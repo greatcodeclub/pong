@@ -4,46 +4,30 @@ function Ball() {
   this.width = 20
   this.height = 20
 
-  // Center horizontally
-  this.x = game.width / 2 - this.width / 2
-  
-  this.yVelocity = 10
-
-  /////////////////////// PART II ///////////////////////
   this.reset()
 
+  // Load sound
   this.blip = new Audio()
   if (this.blip.canPlayType('audio/mpeg')) {
     this.blip.src = 'blip.mp3'
   } else {
     this.blip.src = 'blip.ogg'
   }
-  ///////////////////////////////////////////////////////
 }
 
 Ball.prototype = Object.create(Entity.prototype)
 
-Ball.prototype.update = function() {
-  this.advance()
-
-  // Rebound if it hits top or bottom
-  if (this.y < 0 || this.y + this.height > game.height) {
-    this.yVelocity *= -1 // rebound, switch direction
-  }
-}
-
-/////////////////////// PART II ///////////////////////
-
+// Reset the ball's position
 Ball.prototype.reset = function() {
   this.x = game.width / 2 - this.width / 2
   this.y = game.height / 2 - this.height / 2
 
-  // A simple way to start in a direction
+  // A simple way to start in a random direction
   // var max = 5, min = -5
   // this.yVelocity = Math.floor(Math.random() * (max - min + 1) + min)
   // this.xVelocity = 5
 
-  // A better way to launch the ball at random angle
+  // A better way to launch the ball at a random angle
   var minAngle = -30,
       maxAngle = 30,
       angle = Math.floor(Math.random() * (maxAngle - minAngle + 1)) + minAngle

@@ -4,12 +4,8 @@ function Paddle() {
   this.width = 20
   this.height = 100
 
-  this.x = 20
   this.y = game.height / 2 - this.height / 2
 
-  this.speed = 15
-
-  //////// PART II ////////
   this.score = 0
 }
 
@@ -27,6 +23,10 @@ Paddle.prototype.advance = function() {
 
 function Player() {
   Paddle.call(this)
+  
+  this.x = 20
+
+  this.speed = 15
 }
 
 Player.prototype = Object.create(Paddle.prototype)
@@ -43,10 +43,13 @@ Player.prototype.update = function() {
   this.advance()
 }
 
+
 function Bot() {
   Paddle.call(this)
-  this.speed = 5
+
   this.x = game.width - this.width - 20
+
+  this.speed = 5
 }
 
 Bot.prototype = Object.create(Paddle.prototype)
