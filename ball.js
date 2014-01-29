@@ -9,7 +9,7 @@ function Ball() {
   
   this.yVelocity = 10
 
-  ///////////////////////////
+  /////////////////////// PART II ///////////////////////
   this.reset()
 
   this.blip = new Audio()
@@ -18,6 +18,7 @@ function Ball() {
   } else {
     this.blip.src = 'blip.ogg'
   }
+  ///////////////////////////////////////////////////////
 }
 
 Ball.prototype = Object.create(Entity.prototype)
@@ -31,7 +32,7 @@ Ball.prototype.update = function() {
   }
 }
 
-//////////////////////////////////
+/////////////////////// PART II ///////////////////////
 
 Ball.prototype.reset = function() {
   this.x = game.width / 2 - this.width / 2

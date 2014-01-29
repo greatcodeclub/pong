@@ -1,7 +1,13 @@
-var KEY_UP = 38,
-    KEY_DOWN = 40
-
 var game = {
+  // Some key codes to name mapping
+  keys: {
+    32: 'space',
+    37: 'left',
+    38: 'up',
+    39: 'right',
+    40: 'down'
+  },
+
   // Initialize the game and hook it to the Canvas
   init: function(canvas) {
     var self = this
@@ -11,12 +17,16 @@ var game = {
     this.height = canvas.height
 
     // Key track of pressed keys
-    this.keyPressed = {} // { keyCode: true if key is down, false if up }
+    this.keyPressed = {
+      // up: (true if pressed)
+    }
 
     $(canvas).on('keydown keyup', function(e) {
-      // We only keep track of UP and DOWN arrow keys
-      if (e.which === KEY_UP || e.which === KEY_DOWN) {
-        self.keyPressed[e.which] = e.type === 'keydown'
+      // Convert key code to key name
+      var keyName = self.keys[e.which]
+
+      if (keyName) {
+        self.keyPressed[keyName] = e.type === 'keydown'
         e.preventDefault()
       }
     })
@@ -30,13 +40,14 @@ var game = {
 
   draw: function() {
     var self = this
+
     this.entities.forEach(function(entity) {
       if (entity.draw) entity.draw(self.context)
     })
   },
 
   // Start the game loop
-  simpleStart: function() {
+  start: function() {
     var self = this,
         fps = 60,
         interval = 1000 / fps // ms per frame
@@ -48,7 +59,7 @@ var game = {
   },
 
   // A better game loop for languages with timers
-  start: function() {
+  betterStart: function() {
     var self = this,
         fps = 60,
         interval = 1000 / fps,
@@ -67,7 +78,7 @@ var game = {
     onFrame()
   },
 
-  start: function() {
+  classicStart: function() {
     var self = this
 
     this.lastUpdateTime = new Date().getTime()
@@ -104,6 +115,8 @@ var game = {
         timeDelta = currentTime - this.lastUpdateTime,
         percentageOfInterval = timeDelta / interval
 
+    // FIXME this requires changing the update function to all your entities
+    //       to support partial updating.
     this.update(percentageOfInterval)
     this.draw()
 
