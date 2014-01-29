@@ -16,7 +16,7 @@ Background.prototype.draw = function(context) {
 
 // Initialize and start the game
 
-game.init($('canvas')[0])
+var game = new Game($('canvas')[0])
 
 // Load the game entities
 game.entities = [
