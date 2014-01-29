@@ -62,7 +62,18 @@ Game.prototype.start = function() {
 // Other game loop alternatives
 // ----------------------------
 
-// A better game loop for languages with timers
+// Calls the callback function when the browser requests it, making sure
+// it's in sync with the screen refresh rate.
+// More info at https://developer.mozilla.org/en/docs/Web/API/window.requestAnimationFrame
+var onFrame = function(callback) {
+  requestAnimationFrame(function() {
+    callback()
+    requestAnimationFrame(callback)
+  })
+}
+
+// A better JavaScript game loop updating at fixed interval and drawing
+// only when browser requests it.
 Game.prototype.betterStart = function() {
   var self = this,
       fps = 60,
@@ -74,29 +85,22 @@ Game.prototype.betterStart = function() {
     updated = true
   }, interval)
 
-  var onFrame = function() {
+  onFrame(function() {
     if (updated) self.draw()
-    // Schedule the next update when the browser requests it,
-    // making sure it's in sync with the screen refresh rate.
-    requestAnimationFrame(onFrame)
-  }
-  onFrame()
+    updated = false
+  })
 }
 
-// A classic game loop you'll find in most games
+// Classic game loops you'll find in most games
 Game.prototype.classicStart = function() {
   var self = this
 
   this.lastUpdateTime = new Date().getTime()
   
-  var onFrame = function() {
+  onFrame(function() {
     self.fixedTimeStep()
     // self.variableTimeStep()
-
-    // Schedule the next update
-    requestAnimationFrame(onFrame)
-  }
-  onFrame()
+  })
 }
 
 Game.prototype.fixedTimeStep = function() {
@@ -112,6 +116,7 @@ Game.prototype.fixedTimeStep = function() {
   }
 
   if (updated) this.draw()
+  updated = false
 }
 
 Game.prototype.variableTimeStep = function() {
@@ -121,8 +126,16 @@ Game.prototype.variableTimeStep = function() {
       timeDelta = currentTime - this.lastUpdateTime,
       percentageOfInterval = timeDelta / interval
 
-  // FIXME this requires changing the update function to all your entities
-  //       to support partial updating.
+  // NOTE: This requires changing the update function to all your entities
+  // to support partial updating.
+  //
+  // Eg.:
+  //
+  //   update = function(percentage) {
+  //     this.x += this.xVelocity * percentage
+  //     this.y += this.yVelocity * percentage
+  //   }
+  //
   this.update(percentageOfInterval)
   this.draw()
 
