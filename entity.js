@@ -16,9 +16,10 @@ function Entity() {
   this.yVelocity = 0
 }
 
-// We can advance the entity to make it move.
-// This updates the position according to the velocity.
-Entity.prototype.advance = function() {
+// On each update, we apply the velocity to the current position.
+// This makes the entity move.
+// Entities are expected to override this method.
+Entity.prototype.update = function() {
   this.x += this.xVelocity
   this.y += this.yVelocity
 }
@@ -38,5 +39,3 @@ Entity.prototype.intersect = function(other) {
          this.x + this.width  > other.x &&
          this.x               < other.x + other.width
 }
-
-// Every entity will need to define an `update` function which will update the entity's attributes.
