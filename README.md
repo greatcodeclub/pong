@@ -40,4 +40,10 @@ Refer to `pong.js` to initialize the game and load the entities.
 - http://kenney.nl/assets
 - http://www.reddit.com/r/gameassets
 - http://opengameart.org/
-- 
+
+### License
+
+Copyright 2014 Coded Inc.
+marc@codedinc.com
+
+You are free to modify and distribute this however you want. Expect for teaching purposes.
