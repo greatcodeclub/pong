@@ -6,8 +6,8 @@ function Game(canvas) {
   this.height = canvas.height
 
   // Key track of pressed keys
-  this.keyPressed = {
-    // up: (true if pressed)
+  this.keyDown = {
+    // up: (true while key is down)
   }
 
   $(canvas).on('keydown keyup', function(e) {
@@ -15,9 +15,9 @@ function Game(canvas) {
     var keyName = Game.keys[e.which]
 
     if (keyName) {
-      // eg.: `self.keyPressed.up = true` if UP key is pressed
+      // eg.: `self.keyDown.up = true` if UP key is pressed
       // Will be set to `false` when the key is released
-      self.keyPressed[keyName] = e.type === 'keydown'
+      self.keyDown[keyName] = e.type === 'keydown'
       e.preventDefault()
     }
   })

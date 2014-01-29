@@ -31,9 +31,9 @@ function Player() {
 Player.prototype = Object.create(Paddle.prototype)
 
 Player.prototype.update = function() {
-  if (game.keyPressed.up) {
+  if (game.keyDown.up) {
     this.yVelocity = -this.speed
-  } else if (game.keyPressed.down) {
+  } else if (game.keyDown.down) {
     this.yVelocity = this.speed
   } else {
     this.yVelocity = 0
