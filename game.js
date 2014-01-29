@@ -9,8 +9,8 @@ function Game(canvas) {
 
   // Keep track of key states
   // Eg.:
-  //   game.keyPressed.up === true  // while UP key is pressed)
-  //   game.keyPressed.up === false // when UP key is released)
+  //   game.keyPressed.up === true  // while UP key is pressed
+  //   game.keyPressed.up === false // when UP key is released
   this.keyPressed = {}
 
   $(canvas).on('keydown keyup', function(e) {
