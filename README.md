@@ -21,7 +21,7 @@ Reload the page each time you change something, or check out `Guardfile` to setu
 This project includes the following files you can re-use to make your own custom game:
 
 - `game.js` is the generic game engine.
-- `entities.js` the base class for any game entities.
+- `entity.js` the base class for any game entities.
 
 Refer to `pong.js` to initialize the game and load the entities.
 
