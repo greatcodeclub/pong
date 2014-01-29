@@ -16,6 +16,7 @@ function Ball() {
 }
 
 Ball.prototype = Object.create(Entity.prototype)
+Ball.prototype.constructor = Ball
 
 // Reset the ball's position
 Ball.prototype.reset = function() {
@@ -42,7 +43,7 @@ Ball.prototype.reset = function() {
 }
 
 Ball.prototype.update = function() {
-  this.advance()
+  Entity.prototype.update.apply(this, arguments)
 
   // Detects if and which paddle we hit
   if (this.intersect(game.player)) {

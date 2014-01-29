@@ -10,10 +10,10 @@ function Paddle() {
 }
 
 Paddle.prototype = Object.create(Entity.prototype)
+Paddle.prototype.constructor = Paddle
 
-Paddle.prototype.advance = function() {
-  // Call super method
-  Entity.prototype.advance.apply(this, arguments)
+Paddle.prototype.update = function() {
+  Entity.prototype.update.apply(this, arguments)
 
   // Keep the paddle within the screen
   this.y = Math.min(Math.max(this.y, 0),
@@ -30,6 +30,7 @@ function Player() {
 }
 
 Player.prototype = Object.create(Paddle.prototype)
+Player.prototype.constructor = Player
 
 Player.prototype.update = function() {
   if (game.keyDown.up) {
@@ -40,7 +41,7 @@ Player.prototype.update = function() {
     this.yVelocity = 0
   }
 
-  this.advance()
+  Paddle.prototype.update.apply(this, arguments)
 }
 
 
@@ -53,6 +54,7 @@ function Bot() {
 }
 
 Bot.prototype = Object.create(Paddle.prototype)
+Bot.prototype.constructor = Bot
 
 Bot.prototype.update = function() {
   // Follow the ball
@@ -62,6 +64,6 @@ Bot.prototype.update = function() {
     this.yVelocity = -this.speed
   }
 
-  this.advance()
+  Paddle.prototype.update.apply(this, arguments)
 }
 
