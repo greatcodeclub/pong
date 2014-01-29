@@ -9,6 +9,7 @@ function Paddle() {
 
   this.speed = 15
 
+  //////// PART II ////////
   this.score = 0
 }
 
