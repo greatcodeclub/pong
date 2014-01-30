@@ -6,7 +6,7 @@ The first project of [The Great Code Club](http://www.greatcodeclub.com/).
 
 ### Setting up your dev environment
 
-You can opened up `game.html` directly in your browser using the `file://` protocol. However, I recommend you use a real web server. If you have python installed:
+You can open `game.html` directly in your browser using the `file://` protocol. However, I recommend you use a real web server. If you have python installed:
 
     $ python -m SimpleHTTPServer
 
