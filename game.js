@@ -47,61 +47,44 @@ Game.prototype.draw = function() {
   })
 }
 
-// Start the game loop
+// A simple (but inaccurate) game loop
+//
+//   Game.prototype.start = function() {
+//     var self = this,
+//         fps = 60,
+//         interval = 1000 / fps // ms per frame
+//   
+//     setInterval(function() {
+//       self.update()
+//       self.draw()
+//     }, interval)
+//   }
+
+// A better game loop. Similar to the ones you'll find in most games.
 Game.prototype.start = function() {
-  var self = this,
-      fps = 60,
-      interval = 1000 / fps // ms per frame
-
-  setInterval(function() {
-    self.update()
-    self.draw()
-  }, interval)
-}
-
-
-// Other game loop alternatives
-// ----------------------------
-
-// Calls the callback function when the browser requests it, making sure
-// it's in sync with the screen refresh rate.
-// More info at https://developer.mozilla.org/en/docs/Web/API/window.requestAnimationFrame
-var onFrame = function(callback) {
-  requestAnimationFrame(function() {
-    callback()
-    // Schedule the next call
-    onFrame(callback)
-  })
-}
-
-// A better JavaScript game loop updating at fixed interval and drawing
-// only when browser requests it.
-Game.prototype.betterStart = function() {
-  var self = this,
-      fps = 60,
-      interval = 1000 / fps,
-      updated = false
-
-  setInterval(function() {
-    self.update()
-    updated = true
-  }, interval)
-
-  onFrame(function() {
-    if (updated) self.draw()
-    updated = false
-  })
-}
-
-// Classic game loops you'll find in most games
-Game.prototype.classicStart = function() {
   var self = this
 
   this.lastUpdateTime = new Date().getTime()
   
   onFrame(function() {
+    // Two modes:
     self.fixedTimeStep()
+    // or
     // self.variableTimeStep()
+  })
+}
+
+// Calls the `callback` function when we should draw a new frame.
+// Similar to our timer, but this will use the correct FPS to sync with the
+// screen refresh rate.
+// More info at:
+// https://developer.mozilla.org/en/docs/Web/API/window.requestAnimationFrame
+var onFrame = function(callback) {
+  requestAnimationFrame(function() {
+    callback()
+    // requestAnimationFrame only calls once, we need to schedule the next
+    // call ourself.
+    onFrame(callback)
   })
 }
 
@@ -114,9 +97,11 @@ Game.prototype.fixedTimeStep = function() {
   while (this.lastUpdateTime < currentTime) {
     this.update()
     updated = true
+    // We jump at fixed intervals until we catch up to the current time.
     this.lastUpdateTime += interval
   }
 
+  // No need to draw if nothing was updated, right?
   if (updated) this.draw()
   updated = false
 }
@@ -128,12 +113,12 @@ Game.prototype.variableTimeStep = function() {
       timeDelta = currentTime - this.lastUpdateTime,
       percentageOfInterval = timeDelta / interval
 
-  // NOTE: This requires changing the update function to all your entities
+  // NOTE: This requires changing the update function
   // to support partial updating.
   //
   // Eg.:
   //
-  //   update = function(percentage) {
+  //   Entity.prototype.update = function(percentage) {
   //     this.x += this.xVelocity * percentage
   //     this.y += this.yVelocity * percentage
   //   }
