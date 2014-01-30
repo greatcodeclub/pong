@@ -58,4 +58,4 @@ How to make an awesome game? Use awesome assets (images)!
 Copyright 2014 Coded Inc.  
 marc@codedinc.com
 
-You are free to modify and distribute this however you want. Expect for teaching purposes.
+You are free to modify and distribute this however you want. Except for teaching purposes.
