@@ -1,0 +1,24 @@
+{
+  "name": "pong",
+  "version": "0.0.0",
+  "description": "The first project of [The Great Code Club](http://www.greatcodeclub.com/).",
+  "main": "pong.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codedinc/pong.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codedinc/pong/issues"
+  },
+  "homepage": "https://github.com/codedinc/pong",
+  "devDependencies": {
+    "gulp": "~3.5.0",
+    "tiny-lr": "0.0.5",
+    "gulp-livereload": "~0.2.0"
+  }
+}
