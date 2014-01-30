@@ -69,7 +69,8 @@ Game.prototype.start = function() {
 var onFrame = function(callback) {
   requestAnimationFrame(function() {
     callback()
-    requestAnimationFrame(callback)
+    // Schedule the next call
+    onFrame(callback)
   })
 }
 
