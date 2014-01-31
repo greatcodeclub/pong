@@ -18,11 +18,12 @@ Reload the page each time you change something, or check out `Guardfile` to setu
 
 Here are the files you should take a look at, in logical order:
 
-- `game.html` is the page containing the `<canvas>` we render the game on.
-- `pong.js` initializes the game and the entities.
-- `entity.js` contains the base class for all game entities.
-- `ball.js` is the ball entity. Boing!
-- `paddles.js` is the logic for the player and computer controlled paddles.
+1. `game.html` is the page containing the `<canvas>` we render the game on.
+2. `game.js` is the game engine, mainly the game loop.
+3. `pong.js` initializes the game and the entities.
+4. `entity.js` contains the base class for all game entities.
+5. `ball.js` is the ball entity. Boing!
+6. `paddles.js` is the logic for the player and computer controlled paddles.
 
 ### Creating Your Own
 
@@ -40,7 +41,6 @@ Happy coding!
 - [A simple racing game in CoffeeScript I made](http://macournoyer.com/game/)
 - [A small platform game re-implemented in several languages](https://github.com/alejolp/grounded)
 - [So many JavaScript game engines ...](http://html5gameengine.com/)
-- [LOVE - game engine for Lua](https://love2d.org/)
 - [Other collision detection algorithms](http://devmag.org.za/2009/04/13/basic-collision-detection-in-2d-part-1/)
 - [Article about JavaScript game loops](http://nokarma.org/2011/02/02/javascript-game-development-the-game-loop/index.html)
 - [More about fixed time steps game loops](http://www.flipcode.com/archives/Main_Loop_with_Fixed_Time_Steps.shtml)

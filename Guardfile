@@ -1,19 +1,27 @@
-# This file is used for automatic reloading of the browser on file change
+# This file is used for automatic reloading of the browser on file change.
 #
-# Install:
+### How to install:
 #
-#   $ gem install guard-livereload
+# 1. Make sure you have Ruby installed.
 #
-# Install the browser extension:
-# http://feedback.livereload.com/knowledgebase/articles/86242-how-do-i-install-and-use-the-browser-extensions-
+#    Check with: $ ruby -v
+#    (See https://www.ruby-lang.org/en/installation/. I recommend RVM.)
 #
-# Usage:
+# 2. Install guard-livereload:
+#
+#    $ gem install guard-livereload
+#
+# 3. Install the browser extension:
+# 
+#    http://feedback.livereload.com/knowledgebase/articles/86242-how-do-i-install-and-use-the-browser-extensions-
+#
+### How to use:
 #
 #   $ guard
 #
-# And enable the browser extension
+# And enable the browser extension by clicking on its button in the toolbar.
 #
-# More info at https://github.com/guard/guard-livereload
+# More info at https://github.com/guard/guard-livereload.
 
 guard 'livereload' do
   watch %r{\.(css|js|html)$}
