@@ -70,7 +70,7 @@ Ball.prototype.update = function() {
   }
 
   // Off screen on left. Bot wins.
-  if (this.x < 0) {
+  if (this.x < -this.width) {
     game.bot.score += 1
     this.reset()
   }
