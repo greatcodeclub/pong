@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">        
+  <meta charset="utf-8">
   <title>Game</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+  <!-- for livereload -->
+  <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+  <script>
+    // Allow for full stack trace
+    Error.stackTraceLimit = Infinity;
+  </script>
   <canvas tabindex="1" width="640" height="480"></canvas>
 
   <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>

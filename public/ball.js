@@ -1,6 +1,6 @@
 function Ball() {
   Entity.call(this)
-  
+
   this.width = 20
   this.height = 20
 
