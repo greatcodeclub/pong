@@ -145,3 +145,5 @@ Game.prototype.variableTimeStep = function() {
 
   this.lastUpdateTime = new Date().getTime()
 }
+
+;//
