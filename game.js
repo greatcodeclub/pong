@@ -103,12 +103,12 @@ var onFrame = function(callback) {
 
 // With fixed time steps, each update is done at a fixed interval.
 Game.prototype.fixedTimeStep = function() {
-  var currentTime = new Date().getTime(),
-      fps = 60,
+  var fps = 60,
       interval = 1000 / fps,
       updated = false
 
-  while (this.lastUpdateTime < currentTime) {
+  // While we're not up to date ...
+  while (this.lastUpdateTime < new Date().getTime()) {
     this.update()
     updated = true
     // We jump at fixed intervals until we catch up to the current time.
@@ -140,6 +140,7 @@ Game.prototype.variableTimeStep = function() {
   //     this.y += this.yVelocity * percentage
   //   }
   //
+  // Also don't forget to pass that argument in Game.prototype.update.
   this.update(percentageOfInterval)
   this.draw()
 
