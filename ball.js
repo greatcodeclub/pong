@@ -43,6 +43,13 @@ Ball.prototype.reset = function() {
 
 Ball.prototype.update = function(percentage) {
   Entity.prototype.update.apply(this, arguments)
+
+  if(game.turn == "player") {
+    this.col = game.player.col
+  }
+  else {
+    this.col = game.bot.col
+  }
   
   // Apply gravitational pull downwards.
   this.yVelocity += (this.gravity / 100) * percentage
