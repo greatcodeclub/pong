@@ -92,8 +92,9 @@ Ball.prototype.update = function(percentage) {
 
 
   // Rebound if it hits left or right
-  if (this.x < 02 || this.x > (game.width - this.width)) {
-    this.xVelocity *= -0.9 // dampen the bounce on the walls
+  if (this.x < 0 || this.x > (game.width - this.width)) {
+    this.blip.play()
+    this.xVelocity *= -1
   }
 
 }
