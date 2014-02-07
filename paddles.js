@@ -1,10 +1,10 @@
 function Paddle() {
   Entity.call(this)
 
-  this.width = 20
-  this.height = 100
+  this.width = 100
+  this.height = 20
 
-  this.y = game.height / 2 - this.height / 2
+  this.y = game.height - (this.height * 2)
 
   this.score = 0
 }
@@ -41,6 +41,13 @@ Player.prototype.update = function() {
     this.yVelocity = 0
   }
 
+  if (game.turn == "player") {
+    this.y = game.height - this.height * 3
+  }
+  else {
+    this.y = game.height - this.height * 2
+  }
+
   Paddle.prototype.update.apply(this, arguments)
 }
 
@@ -58,10 +65,17 @@ Bot.prototype.constructor = Bot
 
 Bot.prototype.update = function() {
   // Follow the ball
-  if (this.y < game.ball.y) {
-    this.yVelocity = this.speed
+  if (this.x + (this.width / 2) < game.ball.x + (game.ball.width / 2)) {
+    this.xVelocity = this.speed
   } else {
-    this.yVelocity = -this.speed
+    this.xVelocity = -this.speed
+  }
+
+  if (game.turn == "bot") {
+    this.y = game.height - this.height * 3
+  }
+  else {
+    this.y = game.height - this.height * 2
   }
 
   Paddle.prototype.update.apply(this, arguments)
