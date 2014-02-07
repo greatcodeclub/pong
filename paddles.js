@@ -32,20 +32,21 @@ function Player() {
 Player.prototype = Object.create(Paddle.prototype)
 Player.prototype.constructor = Player
 
-Player.prototype.update = function() {
-  if (game.keyPressed.up) {
-    this.yVelocity = -this.speed
-  } else if (game.keyPressed.down) {
-    this.yVelocity = this.speed
+Player.prototype.update = function(percentage) {
+  if (game.keyPressed.left) {
+    this.xVelocity = -this.speed
+  } else if (game.keyPressed.right) {
+    this.xVelocity = this.speed
   } else {
-    this.yVelocity = 0
+    this.xVelocity = 0
   }
 
   if (game.turn == "player") {
-    this.y = game.height - this.height * 3
+    // Move player to position slowly
+    this.y += ((game.height - this.height * 3 - this.y) / 20) * percentage
   }
   else {
-    this.y = game.height - this.height * 2
+    this.y += game.height
   }
 
   Paddle.prototype.update.apply(this, arguments)
@@ -63,7 +64,7 @@ function Bot() {
 Bot.prototype = Object.create(Paddle.prototype)
 Bot.prototype.constructor = Bot
 
-Bot.prototype.update = function() {
+Bot.prototype.update = function(percentage) {
   // Follow the ball
   if (this.x + (this.width / 2) < game.ball.x + (game.ball.width / 2)) {
     this.xVelocity = this.speed
@@ -72,10 +73,11 @@ Bot.prototype.update = function() {
   }
 
   if (game.turn == "bot") {
-    this.y = game.height - this.height * 3
+    // Move bot2 to position slowly
+    this.y += ((game.height - this.height * 3 - this.y) / 20) * percentage
   }
   else {
-    this.y = game.height - this.height * 2
+    this.y = game.height
   }
 
   Paddle.prototype.update.apply(this, arguments)
