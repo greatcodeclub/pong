@@ -73,16 +73,21 @@ Ball.prototype.update = function(percentage) {
     this.blip.play()
   }
 
-  // Rebound if it hits top or bottom
+  // Rebound if it hits top
   if (this.y < 0) {
     this.y = 0
     this.yVelocity *= -1 // rebound, switch direction
     this.blip.play()
   } 
+
   if (this.y + this.height > game.height) {
-    this.y = game.height - this.height
-    this.yVelocity *= -1 // rebound, switch direction
-    this.blip.play()
+    if(game.turn == "player") {
+      game.bot.score ++
+    }
+    else {
+      game.player.score ++ 
+    }
+    this.reset()
   }
 
 
