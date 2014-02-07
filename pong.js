@@ -5,9 +5,10 @@ Background.prototype.draw = function(context) {
   context.fillRect(0, 0, game.width, game.height)
 
   // Print scores
-  context.fillStyle = '#fff'
   context.font = "40px monospace"
+  context.fillStyle = game.player.col
   context.fillText("You: " + game.player.score, 25, 50)
+  context.fillStyle = game.bot.col
   context.fillText("CPU: " + game.bot.score,    game.width - (25 * 7), 50)
 }
 
