@@ -19,9 +19,12 @@ function Entity() {
 // On each update, we apply the velocity to the current position.
 // This makes the entity move.
 // Entities are expected to override this method.
-Entity.prototype.update = function() {
-  this.x += this.xVelocity
-  this.y += this.yVelocity
+Entity.prototype.update = function(percentage) {
+  if(!percentage) {
+    percentage = 1
+  }
+  this.x += this.xVelocity * percentage
+  this.y += this.yVelocity * percentage
 }
 
 // The entity knows how to draw itself.
