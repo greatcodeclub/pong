@@ -7,6 +7,8 @@ function Entity() {
   this.x = 0
   this.y = 0
 
+  this.col = "#fff"
+
   // Dimensions
   this.width = 0
   this.height = 0
@@ -19,15 +21,18 @@ function Entity() {
 // On each update, we apply the velocity to the current position.
 // This makes the entity move.
 // Entities are expected to override this method.
-Entity.prototype.update = function() {
-  this.x += this.xVelocity
-  this.y += this.yVelocity
+Entity.prototype.update = function(percentage) {
+  if(!percentage) {
+    percentage = 1
+  }
+  this.x += this.xVelocity * percentage
+  this.y += this.yVelocity * percentage
 }
 
 // The entity knows how to draw itself.
-// All entities of our game will be white rectangles.
+// All entities of our game will be rectangles, their colour defined in this.col 
 Entity.prototype.draw = function(context) {
-  context.fillStyle = '#fff'
+  context.fillStyle = this.col
   context.fillRect(this.x, this.y, this.width, this.height)
 }
 

@@ -1,8 +1,16 @@
 # Pong: an HTML5 Canvas 2D Game
 
-The first project of [The Great Code Club](http://www.greatcodeclub.com/).
+## "Gravity" branch
 
-![ZOMGBBQ!! Pong!](https://raw2.github.com/codedinc/pong/master/preview.png)
+The Gravity branch was developed by Greg Bowler [@g105b](http://forum.greatcodeclub.com/users/g105b), taking the concept of the first Great Code Club project and *squashing* it into a game that's less like tennis, and more like ... *squash*.
+
+The two players are on the same side of the screen, and hit the ball upwards. Gravity brings the ball back down, and as the ball gets faster, it begins to bounce from the top wall.
+
+The CPU player has been drawn in grey, so it is easy to differentiate players, now they are both on the same side of the screen.
+
+![ZOMGBBQ!! Pong! WITH GRAVITY!!!!](https://raw2.github.com/g105b/pong/Gravity/preview.png)
+
+-----
 
 ### Setting up your dev environment
 
