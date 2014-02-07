@@ -57,6 +57,7 @@ function Bot() {
   Paddle.call(this)
 
   this.x = game.width - this.width - 20
+  this.col = "#888"
 
   this.speed = 5
 }

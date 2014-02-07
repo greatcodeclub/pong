@@ -7,6 +7,8 @@ function Entity() {
   this.x = 0
   this.y = 0
 
+  this.col = "#fff"
+
   // Dimensions
   this.width = 0
   this.height = 0
@@ -28,9 +30,9 @@ Entity.prototype.update = function(percentage) {
 }
 
 // The entity knows how to draw itself.
-// All entities of our game will be white rectangles.
+// All entities of our game will be rectangles, their colour defined in this.col 
 Entity.prototype.draw = function(context) {
-  context.fillStyle = '#fff'
+  context.fillStyle = this.col
   context.fillRect(this.x, this.y, this.width, this.height)
 }
 
