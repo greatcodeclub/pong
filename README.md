@@ -34,6 +34,8 @@ This project includes the following files you can re-use to make your own custom
 
 Refer to `pong.js` to initialize the game and load the entities.
 
+Check out the *gravity* branch for a variation on Pong made by Greg Bowler (@g105b).
+
 Happy coding!
 
 ### Resources
