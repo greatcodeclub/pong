@@ -33,9 +33,9 @@ Game.keys = {
   40: 'down'
 }
 
-Game.prototype.update = function() {
+Game.prototype.update = function(percentage) {
   this.entities.forEach(function(entity) {
-    if (entity.update) entity.update()
+    if (entity.update) entity.update(percentage)
   })
 }
 
@@ -74,9 +74,9 @@ Game.prototype.start = function() {
   onFrame(function() {
     // A turn in the loop is called a step.
     // Two possible modes:
-    self.fixedTimeStep()
+    // self.fixedTimeStep()
     // or
-    // self.variableTimeStep()
+    self.variableTimeStep()
   })
 }
 
