@@ -1,27 +1,68 @@
-function Background() {}
-
-Background.prototype.draw = function(context) {
-  context.fillStyle = '#000'
-  context.fillRect(0, 0, game.width, game.height)
-
-  // Print scores
-  context.fillStyle = '#fff'
-  context.font = "40px monospace"
-  context.fillText(game.player.score, game.width * 3 / 8, 50)
-  context.fillText(game.bot.score,    game.width * 5 / 8, 50)
-}
-
-
-// Initialize and start the game
-
 var game = new Game($('canvas')[0])
 
 // Load the game entities
 game.entities = [
-  new Background(),
-  game.ball = new Ball(),
-  game.player = new Player(),
-  game.bot = new Bot()
+  
+  // Background
+  {
+    position: { x: 0, y: 0 },
+    dimensions: { width: game.width, height: game.height },
+    color: '#000',
+    drawAsRectangle: true
+  },
+
+  game.ball = {
+    position: { x: 0, y: 0 },
+    center: true,
+    dimensions: { width: 20, height: 20 },
+    randomVelocity: { minAngle: -30, maxAngle: 30, speed: 7 },
+    reboundOnWalls: true,
+    reboundOnPaddles: true,
+    scores: true,
+    color: '#fff',
+    drawAsRectangle: true
+  },
+
+  game.player = {
+    position: { x: 20 },
+    center: 'vertically',
+    dimensions: { width: 20, height: 100 },
+    velocity: { x: 0, y: 0 },
+    keepInScreen: true,
+    keyboardControlled: { speed: 15 },
+    score: 0,
+    color: '#fff',
+    drawAsRectangle: true
+  },
+
+  game.bot = {
+    position: { x: game.width - 40 },
+    center: 'vertically',
+    dimensions: { width: 20, height: 100 },
+    velocity: { x: 0, y: 0 },
+    keepInScreen: true,
+    followBall: { speed: 5 },
+    score: 0,
+    color: '#fff',
+    drawAsRectangle: true
+  },
+
+  // Player score
+  {
+    position: { x: game.width * 3 / 8, y: 50 },
+    color: '#fff',
+    font: '40px monospace',
+    drawScore: game.player
+  },
+
+  // Bot score
+  {
+    position: { x: game.width * 5 / 8, y: 50 },
+    color: '#fff',
+    font: '40px monospace',
+    drawScore: game.bot
+  }
+
 ]
 
 game.start()

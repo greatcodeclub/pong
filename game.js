@@ -33,17 +33,21 @@ Game.keys = {
   40: 'down'
 }
 
+Game.prototype.reset = function() {
+  this.entities.forEach(function(entity) {
+    Game.runSystems(entity, 'init')
+  })
+}
+
 Game.prototype.update = function() {
   this.entities.forEach(function(entity) {
-    if (entity.update) entity.update()
+    Game.runSystems(entity, 'update')
   })
 }
 
 Game.prototype.draw = function() {
-  var self = this
-
   this.entities.forEach(function(entity) {
-    if (entity.draw) entity.draw(self.context)
+    Game.runSystems(entity, 'draw')
   })
 }
 
@@ -69,6 +73,8 @@ Game.prototype.start = function() {
   var self = this
 
   this.lastUpdateTime = new Date().getTime()
+
+  this.reset()
   
   // The loop
   onFrame(function() {

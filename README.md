@@ -21,20 +21,16 @@ Here are the files you should take a look at, in logical order:
 1. `game.html` is the page containing the `<canvas>` we render the game on.
 2. `game.js` is the game engine, mainly the game loop.
 3. `pong.js` initializes the game and the entities.
-4. `entity.js` contains the base class for all game entities.
-5. `ball.js` is the ball entity. Boing!
-6. `paddles.js` is the logic for the player and computer controlled paddles.
+6. `systems.js` contains the systems acting on the entities components.
 
 ### Creating Your Own
 
 This project includes the following files you can re-use to make your own custom game:
 
 - `game.js` is the generic game engine.
-- `entity.js` the base class for any game entities.
+- `systems.js` the systems used in the game.
 
 Refer to `pong.js` to initialize the game and load the entities.
-
-Check out the *gravity* branch for a variation on Pong made by Greg Bowler (@g105b).
 
 Happy coding!
 
