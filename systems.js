@@ -145,11 +145,19 @@ Game.runSystems = function(entity, action) {
 
   systemNames.forEach(function(systemName) {
     // Check if the entity has a component handled by the system.
-    if (entity[systemName] != null) {
-      // If there's a system for that component, we call its action.
-      var system = Game.systems[systemName]
-      var callback = system[action]
-      if (callback) callback(entity)
+    // If there's a system for that component, we call its action.
+    //
+    // For an update action on the velocity system, it is the equivalent of the
+    // following line being called:
+    //
+    //     Game.systems.velocity.update(entity)
+    //
+    //
+    //                                       Example for velocity:
+    if (entity[systemName] != null) {        // if entity['velocity'] != null
+      var system = Game.systems[systemName]  //   system = Game.systems['velocity']
+      var callback = system[action]          //   callback = system['update']
+      if (callback) callback(entity)         //   callback(entity)
     }
   })
 }
